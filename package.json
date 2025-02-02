@@ -1,6 +1,6 @@
 {
   "name": "optikit",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "OptiKit CLI",
   "main": "src/cli.ts",
   "type": "module",
