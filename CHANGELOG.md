@@ -10,6 +10,10 @@ We follow Semantic Versioning (SemVer) to indicate the nature of changes:
 
 Each section lists the changes in chronological order, with the most recent release at the top. We also include links to relevant discussions or issues when appropriate.
 
+## [1.0.4]
+### Modified
+- Updated the CLI to support the latest version of Opticore.
+  
 ## [1.0.3]
 ### Optimized
 - Updated the CLI to support the latest version of Opticore.
