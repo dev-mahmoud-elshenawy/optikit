@@ -14,6 +14,12 @@
 
 **OptiKit** is a powerful command-line interface (CLI) tool designed to streamline your workflows and automate repetitive tasks. With its user-friendly commands and robust functionality, **OptiKit** helps you manage your projects efficiently and effectively.
 
+## Designed for Opticore Developers
+
+**OptiKit CLI** is built to empower developers—especially those leveraging our [Opticore micro framework](https://pub.dev/packages/opticore). By integrating seamlessly with Opticore, OptiKit streamlines your workflow and automates repetitive tasks, allowing you to focus on building powerful applications.
+
+Explore the **OptiCore** framework on [pub.dev](https://pub.dev/packages/opticore) and see how **OptiKit** can enhance your development experience.
+
 ## Features
 
 - **Customizable**: The CLI commands and options to fit your specific needs.
