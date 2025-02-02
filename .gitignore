@@ -1,0 +1,56 @@
+# Node.js modules
+node_modules/
+
+# Build output
+dist/
+
+# Log files
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# IDE and Editor folders
+.idea/
+.vscode/
+.DS_Store
+
+# TypeScript output
+*.tsbuildinfo
+*.js
+*.d.ts
+
+# Ignore package-lock.json
+package-lock.json
+
+# Yarn specific files
+yarn-error.log
+yarn-debug.log
+
+# OS specific files
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Jest test results
+jest-test-results.json
+
+# NPM local config
+.npm/
+
+# npm-debug.log
+npm-debug.log*
+
+# .history directory
+.history/
