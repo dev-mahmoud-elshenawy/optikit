@@ -98,19 +98,19 @@ async function updateIosVersionAndBuild(version: string, iosBuild: string) {
           /CURRENT_PROJECT_VERSION\s*=\s*[^;]+;/g,
           `CURRENT_PROJECT_VERSION = ${iosBuild};`
         );
-  
+
       fs.writeFileSync(projectPbxProjPath, projectContent);
-  
+
       LoggerHelpers.success(`Updated MARKETING_VERSION to ${version} and CURRENT_PROJECT_VERSION to ${iosBuild}`);
-  
+
       const infoPlistPath = path.join(currentDir, "ios/Runner/Info.plist");
-  
+
       if (!fs.existsSync(infoPlistPath)) {
         throw new Error(`Info.plist not found at ${infoPlistPath}`);
       }
-  
+
       const infoPlistContent = fs.readFileSync(infoPlistPath, "utf8");
-  
+
       const updatedPlist = infoPlistContent
         .replace(
           /<key>CFBundleShortVersionString<\/key>\s*<string>\$\{MARKETING_VERSION\}<\/string>/,
@@ -120,10 +120,10 @@ async function updateIosVersionAndBuild(version: string, iosBuild: string) {
           /<key>CFBundleVersion<\/key>\s*<string>\$\{CURRENT_PROJECT_VERSION\}<\/string>/,
           `<key>CFBundleVersion</key><string>${iosBuild}</string>`
         );
-  
+
       fs.writeFileSync(infoPlistPath, updatedPlist);
       LoggerHelpers.success("Updated Info.plist with the new version and iOS build.");
-  
+
     } catch (error) {
       LoggerHelpers.error(
         `Error while updating iOS version and build: ${

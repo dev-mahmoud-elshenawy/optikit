@@ -146,6 +146,16 @@ optikit open-ios
 
 ---
 
+### 11. VS Code Setup Command
+- Automatically create a `.vscode` folder with a `settings.json` file preconfigured for Flutter projects using FVM. This command streamlines your project setup by setting the Flutter SDK path to `.fvm/flutter_sdk`.
+
+```bash
+optikit setup-vscode
+```
+
+---
+
+
 ## Verification
 
 After running any command, you can verify its success by observing the output or using the `optikit --version` command to confirm the CLI's version.

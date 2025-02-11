@@ -17,6 +17,7 @@ import {
 import { boxenOptions } from "./styles.js";
 import { openIos, openAndroid } from "./commands/openProject.js";
 import { createRequire } from "module";
+import { createVscodeSettings } from "./commands/setupVSCode.js";
 const require = createRequire(import.meta.url);
 const packageInfo: { version: string } = require("../package.json");
 
@@ -181,6 +182,13 @@ const options = yargs(hideBin(process.argv))
     {},
     async () => {
       await openAndroid();
+    }
+  ).command(
+    "setup-vscode",
+    "Create a .vscode folder with recommended Flutter settings",
+    () => {},
+    async () => {
+      await createVscodeSettings();
     }
   )
   .version(version)

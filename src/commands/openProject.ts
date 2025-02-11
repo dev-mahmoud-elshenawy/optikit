@@ -26,12 +26,12 @@ async function openAndroid() {
 
     const osPlatform = platform();
     let command;
-  
-    
+
+
     if (osPlatform === "win32") {
       command = "start android";
     } else if (osPlatform === "darwin") {
-      command = "open -a 'Android Studio' android"; 
+      command = "open -a 'Android Studio' android";
     } else {
       command = "xdg-open android"; 
     }
