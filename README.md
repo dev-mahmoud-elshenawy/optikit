@@ -20,30 +20,63 @@
 
 Explore the **OptiCore** framework on [pub.dev](https://pub.dev/packages/opticore) and see how **OptiKit** can enhance your development experience.
 
-## Features
+## Key Features
 
-- **Customizable**: The CLI commands and options to fit your specific needs.
-- **User-Friendly**: Intuitive command-line experience with helpful output.
-- **Built-In Error Handling**: Informative error messages for easy troubleshooting.
-- **Cross-Platform Compatibility**: Consistent performance across macOS, Windows, and Linux.
-- **Flexible Configuration**: Customize options for different environments and setups.
-- **Detailed Command Documentation**: Built-in help for all commands to guide usage.
+- **Smart Version Management** - Intelligent semantic versioning with platform-specific build number handling
+- **Automatic Backups & Rollback** - Safe file modifications with easy restoration
+- **Build Automation** - Streamlined APK, Bundle, IPA, and iOS builds with validation
+- **Module Generation** - Scaffold complete BLoC pattern modules for Opticore framework
+- **Project Configuration** - Flexible .optikitrc.json configuration system
+- **Cross-Platform** - Consistent performance across macOS, Windows, and Linux
+- **FVM Support** - Built-in Flutter Version Manager support
+
+See [FEATURE_ENHANCEMENTS.md](FEATURE_ENHANCEMENTS.md) for complete feature details.
 
 ## Installation
 
 For detailed instructions on how to install **OptiKit CLI** on your system, refer to the [Installation Guide](https://github.com/dev-mahmoud-elshenawy/optikit/blob/main/INSTALLATION.md).
 
-## Troubleshooting
+## Quick Start
 
-If you encounter any issues while using **OptiKit CLI**, check the [Troubleshooting Guide](https://github.com/dev-mahmoud-elshenawy/optikit/blob/main/TROUBLESHOOT.md) for solutions to common problems.
+```bash
+# Initialize OptiKit in your Flutter project
+optikit init
 
-## Usage
+# Show current version
+optikit version
 
-To learn how to use **OptiKit CLI** and its various commands, refer to the [Usage Guide](https://github.com/dev-mahmoud-elshenawy/optikit/blob/main/USAGE.md).
+# Bump patch version (1.0.0 → 1.0.1)
+optikit version bump patch
 
-## Changelog
+# Build APK for release
+optikit flutter-build-apk
 
-To learn more about the updates and changes in **OptiKit CLI**, refer to the [Changelog Guide](https://github.com/dev-mahmoud-elshenawy/optikit/blob/main/CHANGELOG.md).
+# View available backups
+optikit rollback
+
+# Get help
+optikit --help
+```
+
+## Documentation
+
+### User Guides
+
+- **[Usage Guide](USAGE.md)** - Complete guide to all commands and features
+- **[Installation Guide](INSTALLATION.md)** - How to install OptiKit CLI
+- **[Troubleshooting Guide](TROUBLESHOOT.md)** - Solutions to common problems
+
+### Feature Documentation
+
+- **[Version Management](VERSION_MANAGEMENT.md)** - Smart version bumping and build number strategies
+- **[Safety Features](SAFETY_FEATURES.md)** - Validation and automatic backup system
+- **[Feature Enhancements](FEATURE_ENHANCEMENTS.md)** - New commands (init, rollback, configuration)
+- **[Code Quality](CODE_QUALITY.md)** - Architecture improvements and best practices
+
+### Developer Resources
+
+- **[Changelog](CHANGELOG.md)** - Version history and updates
+- **[Contributing Guide](CLAUDE.md)** - Development guide for contributors
 
 ## Contact
 

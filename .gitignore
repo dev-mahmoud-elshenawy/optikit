@@ -54,3 +54,6 @@ npm-debug.log*
 
 # .history directory
 .history/
+
+# OptiKit backup files
+.optikit-backup/

@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { capitalize } from "./stringHelpers.js";
+import { capitalize } from "./string.js";
 
 export { createDirectories, writeFile, getClassName };
 
@@ -18,7 +18,8 @@ function writeFile(filePath: string, content: string) {
 }
 
 function getClassName(moduleName: string, type: string): string {
-  const defineItems = moduleName.replace(type, "").split("_");
+  // Split module name by underscores and capitalize each part
+  const defineItems = moduleName.split("_").filter(item => item.length > 0);
   let className = "";
   defineItems.forEach((item) => {
     className += capitalize(item);

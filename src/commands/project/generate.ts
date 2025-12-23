@@ -4,27 +4,57 @@ import {
   createDirectories,
   writeFile,
   getClassName,
-} from "../utils/fileHelpers.js";
-import { LoggerHelpers } from "../utils/loggerHelpers.js";
+} from "../../utils/helpers/file.js";
+import { LoggerHelpers } from "../../utils/services/logger.js";
 
 export { generateModule };
 
 function generateModule(moduleName: string) {
-  const modulePath = path.join("lib", "module", moduleName);
-  const directories = ["bloc", "event", "state", "screen", "import", "factory"];
+  try {
+    // Validate module name
+    if (!moduleName || moduleName.trim().length === 0) {
+      LoggerHelpers.error("Module name cannot be empty.");
+      process.exit(1);
+    }
 
-  createDirectories(modulePath, directories);
+    // Validate module name format (only lowercase letters, numbers, and underscores)
+    const validNamePattern = /^[a-z0-9_]+$/;
+    if (!validNamePattern.test(moduleName)) {
+      LoggerHelpers.error(
+        "Module name must contain only lowercase letters, numbers, and underscores."
+      );
+      process.exit(1);
+    }
 
-  LoggerHelpers.info(`Creating module structure for ${moduleName}...`);
+    const modulePath = path.join("lib", "module", moduleName);
+    const directories = ["bloc", "event", "state", "screen", "import", "factory"];
 
-  generateBloc(moduleName, path.join(modulePath, "bloc"));
-  generateEvent(moduleName, path.join(modulePath, "event"));
-  generateState(moduleName, path.join(modulePath, "state"));
-  generateScreen(moduleName, path.join(modulePath, "screen"));
-  generateImport(moduleName, path.join(modulePath, "import"));
-  generateStateFactory(moduleName, path.join(modulePath, "factory"));
+    // Check if module already exists
+    if (fs.existsSync(modulePath)) {
+      LoggerHelpers.warning(`Module ${moduleName} already exists at ${modulePath}`);
+      LoggerHelpers.info("Files will be overwritten...");
+    }
 
-  LoggerHelpers.success(`Module ${moduleName} created with full structure.`);
+    createDirectories(modulePath, directories);
+
+    LoggerHelpers.info(`Creating module structure for ${moduleName}...`);
+
+    generateBloc(moduleName, path.join(modulePath, "bloc"));
+    generateEvent(moduleName, path.join(modulePath, "event"));
+    generateState(moduleName, path.join(modulePath, "state"));
+    generateScreen(moduleName, path.join(modulePath, "screen"));
+    generateImport(moduleName, path.join(modulePath, "import"));
+    generateStateFactory(moduleName, path.join(modulePath, "factory"));
+
+    LoggerHelpers.success(`Module ${moduleName} created with full structure.`);
+  } catch (error) {
+    if (error instanceof Error) {
+      LoggerHelpers.error(`Error generating module: ${error.message}`);
+    } else {
+      LoggerHelpers.error(`Error generating module: ${error}`);
+    }
+    process.exit(1);
+  }
 }
 
 function generateBloc(moduleName: string, blocPath: string) {

@@ -1,7 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
-import { LoggerHelpers } from "../utils/loggerHelpers.js";
-import { execInIos, execCommand, iosDirectory, execInIosWithRetry } from "../utils/execHelpers.js";
+import { LoggerHelpers } from "../../utils/services/logger.js";
+import { execInIos, execCommand, iosDirectory, execInIosWithRetry } from "../../utils/services/exec.js";
+import { validateFlutterProject, validateIosProject } from "../../utils/validators/validation.js";
 
 export { cleanIosProject };
 
@@ -61,21 +62,28 @@ async function ensureFlutterArtifactsExist() {
 }
 
 async function cleanIosProject(cleanCache: boolean, repoUpdate: boolean) {
+  // Pre-flight validation
+  if (!validateFlutterProject()) {
+    process.exit(1);
+  }
+
+  if (!validateIosProject()) {
+    process.exit(1);
+  }
+
   try {
-    const xcodeProjPath = path.join(iosDirectory, "Runner.xcodeproj");
-
-    if (!fs.existsSync(xcodeProjPath)) {
-      LoggerHelpers.error("No Xcode project found in the ios directory.");
-      return;
-    }
-
     LoggerHelpers.info("Running clean for iOS project...");
 
     await ensureFlutterArtifactsExist();
 
     LoggerHelpers.info("Removing Podfile.lock...");
-    await execInIos("rm -rf Podfile.lock");
-    LoggerHelpers.success("Removed Podfile.lock.");
+    const podfileLockPath = path.join(iosDirectory, "Podfile.lock");
+    if (fs.existsSync(podfileLockPath)) {
+      fs.unlinkSync(podfileLockPath);
+      LoggerHelpers.success("Removed Podfile.lock.");
+    } else {
+      LoggerHelpers.info("Podfile.lock does not exist, skipping removal.");
+    }
 
     LoggerHelpers.info("Deintegrating pods...");
     await execInIos("pod deintegrate");
@@ -116,5 +124,6 @@ async function cleanIosProject(cleanCache: boolean, repoUpdate: boolean) {
     } else {
       LoggerHelpers.error(`Unknown error: ${JSON.stringify(error)}`);
     }
+    process.exit(1);
   }
 }

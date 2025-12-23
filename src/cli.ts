@@ -4,20 +4,29 @@ import chalk from "chalk";
 import boxen from "boxen";
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
-import { generateModule } from "./commands/generateModule.js";
-import { cleanProject } from "./commands/cleanProject.js";
-import { cleanIosProject } from "./commands/cleanProjectIos.js";
-import { updateFlutterVersion } from "./commands/updateVersions.js";
+import { generateModule } from "./commands/project/generate.js";
+import { cleanProject } from "./commands/clean/flutter.js";
+import { cleanIosProject } from "./commands/clean/ios.js";
+import { updateFlutterVersion } from "./commands/version/update.js";
 import {
   buildFlutterApk,
   buildFlutterBundle,
   buildFlutterIos,
   buildFlutterIpa,
-} from "./commands/buildReleases.js";
+} from "./commands/build/releases.js";
 import { boxenOptions } from "./styles.js";
-import { openIos, openAndroid } from "./commands/openProject.js";
+import { openIos, openAndroid } from "./commands/project/open.js";
 import { createRequire } from "module";
-import { createVscodeSettings } from "./commands/setupVSCode.js";
+import { createVscodeSettings } from "./commands/project/setup.js";
+import { initializeProject } from "./commands/config/init.js";
+import { rollbackFiles, rollbackRestore } from "./commands/config/rollback.js";
+import {
+  bumpVersion,
+  bumpIosBuildOnly,
+  bumpAndroidBuildOnly,
+  showCurrentVersion
+} from "./commands/version/bump.js";
+import { listDevices, runApp, runAppInteractive } from "./commands/project/devices.js";
 const require = createRequire(import.meta.url);
 const packageInfo: { version: string } = require("../package.json");
 
@@ -189,6 +198,155 @@ const options = yargs(hideBin(process.argv))
     () => {},
     async () => {
       await createVscodeSettings();
+    }
+  )
+  .command(
+    "init",
+    "Initialize OptiKit configuration in the current project",
+    () => {},
+    async () => {
+      await initializeProject();
+    }
+  )
+  .command(
+    "rollback",
+    "List and restore files from OptiKit backups",
+    (yargs) => {
+      return yargs.option("restore", {
+        type: "number",
+        description: "Restore backup by index number",
+        demandOption: false,
+      });
+    },
+    async (argv) => {
+      const restoreIndex = argv.restore as number | undefined;
+      if (restoreIndex !== undefined) {
+        await rollbackRestore(restoreIndex);
+      } else {
+        await rollbackFiles();
+      }
+    }
+  )
+  .command(
+    "version",
+    "Show current version information",
+    () => {},
+    async () => {
+      await showCurrentVersion();
+    }
+  )
+  .command(
+    "version bump <type>",
+    "Bump version (major, minor, or patch)",
+    (yargs) => {
+      return yargs.positional("type", {
+        describe: "Version bump type (major, minor, patch)",
+        type: "string",
+        choices: ["major", "minor", "patch"],
+      });
+    },
+    async (argv) => {
+      const type = argv.type as 'major' | 'minor' | 'patch';
+      await bumpVersion(type);
+    }
+  )
+  .command(
+    "version bump-ios",
+    "Increment iOS build number only (for TestFlight)",
+    () => {},
+    async () => {
+      await bumpIosBuildOnly();
+    }
+  )
+  .command(
+    "version bump-android",
+    "Increment Android build number only",
+    () => {},
+    async () => {
+      await bumpAndroidBuildOnly();
+    }
+  )
+  .command(
+    "devices",
+    "List all connected devices",
+    (yargs) => {
+      return yargs.option("disable-fvm", {
+        type: "boolean",
+        default: false,
+        description: "Run without FVM (use --disable-fvm to enable)",
+      });
+    },
+    async (argv) => {
+      const useFvm = !argv.disableFvm;
+      await listDevices(useFvm);
+    }
+  )
+  .command(
+    "run",
+    "Run Flutter app on connected device",
+    (yargs) => {
+      return yargs
+        .option("device", {
+          alias: "d",
+          type: "string",
+          description: "Specific device ID to run on",
+        })
+        .option("release", {
+          alias: "r",
+          type: "boolean",
+          default: false,
+          description: "Run in release mode",
+        })
+        .option("flavor", {
+          alias: "f",
+          type: "string",
+          description: "Build flavor to use",
+        })
+        .option("disable-fvm", {
+          type: "boolean",
+          default: false,
+          description: "Run without FVM (use --disable-fvm to enable)",
+        });
+    },
+    async (argv) => {
+      const useFvm = !argv.disableFvm;
+      await runApp({
+        device: argv.device as string | undefined,
+        release: argv.release as boolean,
+        flavor: argv.flavor as string | undefined,
+        useFvm,
+      });
+    }
+  )
+  .command(
+    "run-select",
+    "Interactive device selection and run",
+    (yargs) => {
+      return yargs
+        .option("release", {
+          alias: "r",
+          type: "boolean",
+          default: false,
+          description: "Run in release mode",
+        })
+        .option("flavor", {
+          alias: "f",
+          type: "string",
+          description: "Build flavor to use",
+        })
+        .option("disable-fvm", {
+          type: "boolean",
+          default: false,
+          description: "Run without FVM (use --disable-fvm to enable)",
+        });
+    },
+    async (argv) => {
+      const useFvm = !argv.disableFvm;
+      await runAppInteractive({
+        release: argv.release as boolean,
+        flavor: argv.flavor as string | undefined,
+        useFvm,
+      });
     }
   )
   .version(version)

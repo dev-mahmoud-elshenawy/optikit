@@ -1,7 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { execInIos } from "../utils/execHelpers.js";
-import { LoggerHelpers } from "../utils/loggerHelpers.js";
+import { execInIos } from "../../utils/services/exec.js";
+import { LoggerHelpers } from "../../utils/services/logger.js";
+import { validateFlutterProject } from "../../utils/validators/validation.js";
+import { createBackup } from "../../utils/services/backup.js";
 
 const currentDir = process.cwd();
 
@@ -12,6 +14,11 @@ async function updateFlutterVersion(
   build: string,
   iosBuild: string
 ) {
+  // Pre-flight validation
+  if (!validateFlutterProject()) {
+    process.exit(1);
+  }
+
   try {
     // Always update the version since it is required.
     LoggerHelpers.info(`Starting update for version ${version}...`);
@@ -43,7 +50,7 @@ async function updateFlutterVersion(
         error instanceof Error ? error.message : String(error)
       }`
     );
-    throw error;
+    process.exit(1);
   }
 }
 
@@ -54,6 +61,9 @@ async function updatePubspecVersionAndBuild(version: string, build: string) {
     if (!fs.existsSync(pubspecPath)) {
       throw new Error(`pubspec.yaml not found at ${pubspecPath}`);
     }
+
+    // Create backup before modification
+    createBackup(pubspecPath);
 
     const pubspecContent = fs.readFileSync(pubspecPath, "utf8");
 
@@ -80,13 +90,16 @@ async function updatePubspecVersionAndBuild(version: string, build: string) {
 async function updateIosVersionAndBuild(version: string, iosBuild: string) {
     try {
       const currentDir = process.cwd();
-  
+
       const projectPbxProjPath = path.join(currentDir, "ios/Runner.xcodeproj/project.pbxproj");
-  
+
       if (!fs.existsSync(projectPbxProjPath)) {
         throw new Error(`project.pbxproj not found at ${projectPbxProjPath}`);
       }
-  
+
+      // Create backup before modification
+      createBackup(projectPbxProjPath);
+
       let projectContent = fs.readFileSync(projectPbxProjPath, 'utf8');
   
       projectContent = projectContent
@@ -108,6 +121,9 @@ async function updateIosVersionAndBuild(version: string, iosBuild: string) {
       if (!fs.existsSync(infoPlistPath)) {
         throw new Error(`Info.plist not found at ${infoPlistPath}`);
       }
+
+      // Create backup before modification
+      createBackup(infoPlistPath);
 
       const infoPlistContent = fs.readFileSync(infoPlistPath, "utf8");
 

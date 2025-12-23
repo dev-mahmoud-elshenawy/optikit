@@ -1,7 +1,7 @@
 import { exec, spawn } from "child_process";
 import { promisify } from "util";
 import path from "path";
-import { LoggerHelpers } from "../utils/loggerHelpers.js";
+import { LoggerHelpers } from "./logger.js";
 
 export const iosDirectory = path.join(process.cwd(), "ios");
 
