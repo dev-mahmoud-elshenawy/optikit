@@ -4,7 +4,8 @@ import {
   getCurrentVersion,
   incrementVersion,
   formatVersion,
-  getNextBuildNumber
+  getNextBuildNumber,
+  getCurrentIosBuildNumber
 } from "../../utils/helpers/version.js";
 import { updateFlutterVersion } from "./update.js";
 import chalk from "chalk";
@@ -87,8 +88,9 @@ async function bumpIosBuildOnly(): Promise<void> {
     const current = getCurrentVersion();
     const currentVersionString = `${current.major}.${current.minor}.${current.patch}`;
 
-    // iOS build number increments from current Android build number
-    const nextIosBuild = current.buildNumber + 1;
+    // Read actual iOS build number from project.pbxproj
+    const currentIosBuild = getCurrentIosBuildNumber();
+    const nextIosBuild = currentIosBuild + 1;
 
     LoggerHelpers.info(`Current version: ${formatVersion(current)}`);
     LoggerHelpers.info("Incrementing iOS build number only (for TestFlight)...");
@@ -96,7 +98,7 @@ async function bumpIosBuildOnly(): Promise<void> {
     console.log(chalk.cyan("\nBuild number changes:"));
     console.log(chalk.gray("  Version:"), chalk.white(`${currentVersionString} (unchanged)`));
     console.log(chalk.gray("  Android:"), chalk.white(`${current.buildNumber} (unchanged)`));
-    console.log(chalk.gray("  iOS:"), chalk.white(`${current.buildNumber} → ${nextIosBuild}`), chalk.green("(incremented)"));
+    console.log(chalk.gray("  iOS:"), chalk.white(`${currentIosBuild} → ${nextIosBuild}`), chalk.green("(incremented)"));
     console.log();
 
     // Update only iOS build number
@@ -170,13 +172,15 @@ async function showCurrentVersion(): Promise<void> {
   try {
     const current = getCurrentVersion();
     const versionString = formatVersion(current);
+    const currentIosBuild = getCurrentIosBuildNumber();
 
     console.log(chalk.bold("\n📱 Current Version Information\n"));
     console.log(chalk.cyan("Version:"), chalk.white.bold(versionString));
     console.log(chalk.gray("  Major:"), chalk.white(current.major));
     console.log(chalk.gray("  Minor:"), chalk.white(current.minor));
     console.log(chalk.gray("  Patch:"), chalk.white(current.patch));
-    console.log(chalk.gray("  Build:"), chalk.white(current.buildNumber));
+    console.log(chalk.gray("  Android Build:"), chalk.white(current.buildNumber));
+    console.log(chalk.gray("  iOS Build:"), chalk.white(currentIosBuild));
     console.log();
 
   } catch (error) {

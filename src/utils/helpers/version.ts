@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { LoggerHelpers } from "../services/logger.js";
 
-export { parseVersion, incrementVersion, getCurrentVersion, VersionInfo };
+export { parseVersion, incrementVersion, getCurrentVersion, getCurrentIosBuildNumber, VersionInfo };
 
 /**
  * Version information structure
@@ -106,4 +106,34 @@ export function formatVersion(version: VersionInfo): string {
 export function getNextBuildNumber(): number {
   const current = getCurrentVersion();
   return current.buildNumber + 1;
+}
+
+/**
+ * Gets the current iOS build number from project.pbxproj
+ * @returns Current iOS build number, or 1 if not found
+ */
+function getCurrentIosBuildNumber(): number {
+  try {
+    const projectPbxProjPath = path.join(process.cwd(), "ios/Runner.xcodeproj/project.pbxproj");
+
+    if (!fs.existsSync(projectPbxProjPath)) {
+      LoggerHelpers.warning("iOS project.pbxproj not found. Defaulting to build number 1.");
+      return 1;
+    }
+
+    const projectContent = fs.readFileSync(projectPbxProjPath, 'utf8');
+
+    // Match CURRENT_PROJECT_VERSION = <number>;
+    const buildMatch = projectContent.match(/CURRENT_PROJECT_VERSION\s*=\s*(\d+);/);
+
+    if (!buildMatch) {
+      LoggerHelpers.warning("CURRENT_PROJECT_VERSION not found in project.pbxproj. Defaulting to build number 1.");
+      return 1;
+    }
+
+    return parseInt(buildMatch[1], 10);
+  } catch (error) {
+    LoggerHelpers.warning(`Error reading iOS build number: ${error instanceof Error ? error.message : error}. Defaulting to 1.`);
+    return 1;
+  }
 }
