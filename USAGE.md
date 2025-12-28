@@ -102,19 +102,19 @@ Version: 1.2.3+45
 Increment patch version (bug fixes):
 
 ```bash
-optikit version bump patch
+optikit bump patch
 ```
 
 Increment minor version (new features):
 
 ```bash
-optikit version bump minor
+optikit bump minor
 ```
 
 Increment major version (breaking changes):
 
 ```bash
-optikit version bump major
+optikit bump major
 ```
 
 **What it does:**
@@ -129,7 +129,7 @@ optikit version bump major
 
 ```text
 Current: 1.0.2+45
-After `optikit version bump patch`:
+After `optikit bump patch`:
 New: 1.0.3+46 (iOS build: 1)
 ```
 
@@ -140,7 +140,7 @@ New: 1.0.3+46 (iOS build: 1)
 Increment only iOS build number without changing version:
 
 ```bash
-optikit version bump-ios
+optikit bump-ios
 ```
 
 **What it does:**
@@ -169,7 +169,7 @@ After:
 Increment only Android build number:
 
 ```bash
-optikit version bump-android
+optikit bump-android
 ```
 
 **What it does:**

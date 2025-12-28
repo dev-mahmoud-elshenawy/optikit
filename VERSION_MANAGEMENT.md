@@ -46,7 +46,7 @@ Version: 1.2.3+45
 
 #### Bump Patch (1.2.3 → 1.2.4)
 ```bash
-optikit version bump patch
+optikit bump patch
 ```
 
 **What it does:**
@@ -61,7 +61,7 @@ optikit version bump patch
 
 #### Bump Minor (1.2.4 → 1.3.0)
 ```bash
-optikit version bump minor
+optikit bump minor
 ```
 
 **What it does:**
@@ -76,7 +76,7 @@ optikit version bump minor
 
 #### Bump Major (1.3.0 → 2.0.0)
 ```bash
-optikit version bump major
+optikit bump major
 ```
 
 **What it does:**
@@ -95,7 +95,7 @@ optikit version bump major
 ### 3. Bump iOS Build Only (TestFlight)
 
 ```bash
-optikit version bump-ios
+optikit bump-ios
 ```
 
 **What it does:**
@@ -126,7 +126,7 @@ After:
 ### 4. Bump Android Build Only
 
 ```bash
-optikit version bump-android
+optikit bump-android
 ```
 
 **What it does:**
@@ -160,7 +160,7 @@ After:
 
 ```bash
 # Current: 1.0.2+5
-optikit version bump patch
+optikit bump patch
 
 # Result:
 # Version: 1.0.3+6
@@ -183,15 +183,15 @@ optikit version bump patch
 # Current: 1.0.3+6 (iOS build: 1)
 
 # First TestFlight upload
-optikit version bump-ios
+optikit bump-ios
 # Version: 1.0.3+6, iOS: 2
 
 # Found a bug, fix it, upload again
-optikit version bump-ios
+optikit bump-ios
 # Version: 1.0.3+6, iOS: 3
 
 # Another fix
-optikit version bump-ios
+optikit bump-ios
 # Version: 1.0.3+6, iOS: 4
 ```
 
@@ -210,7 +210,7 @@ optikit version bump-ios
 # Current: 1.0.3+6 (iOS: 4)
 
 # Increment Android build only
-optikit version bump-android
+optikit bump-android
 # Version: 1.0.3+7, iOS: 4 (unchanged)
 ```
 
@@ -222,23 +222,23 @@ optikit version bump-android
 # 1. Start: 1.0.2+10 (iOS: 5)
 
 # 2. New feature development
-optikit version bump minor
+optikit bump minor
 # → 1.1.0+11 (iOS: 1, Android: 11)
 
 # 3. TestFlight testing (3 iterations)
-optikit version bump-ios  # iOS: 2
-optikit version bump-ios  # iOS: 3
-optikit version bump-ios  # iOS: 4
+optikit bump-ios  # iOS: 2
+optikit bump-ios  # iOS: 3
+optikit bump-ios  # iOS: 4
 
 # 4. Android beta testing
-optikit version bump-android  # Android: 12
+optikit bump-android  # Android: 12
 
 # 5. Fix found during testing
-optikit version bump patch
+optikit bump patch
 # → 1.1.1+13 (iOS: 1, Android: 13)
 
 # 6. Final TestFlight
-optikit version bump-ios  # iOS: 2
+optikit bump-ios  # iOS: 2
 
 # 7. Release to stores!
 # iOS: 1.1.1 (build 2)
@@ -261,7 +261,7 @@ BEFORE:                    AFTER:
 │ iOS: 3      │   ───>    │ iOS: 1      │  ✅ Reset to 1
 └─────────────┘           └─────────────┘
 
-Command: optikit version bump patch
+Command: optikit bump patch
 ```
 
 ### Example 2: iOS-Only Bump
@@ -276,7 +276,7 @@ BEFORE:                    AFTER:
 │ iOS: 1      │   ───>    │ iOS: 2      │  ✅ Build +1
 └─────────────┘           └─────────────┘
 
-Command: optikit version bump-ios
+Command: optikit bump-ios
 ```
 
 ---
@@ -328,24 +328,24 @@ version: 1.2.3+45
 ### 1. Always Use Semantic Versioning
 ```bash
 # Bug fix
-optikit version bump patch
+optikit bump patch
 
 # New feature
-optikit version bump minor
+optikit bump minor
 
 # Breaking change
-optikit version bump major
+optikit bump major
 ```
 
 ### 2. TestFlight Workflow
 ```bash
 # Create new version
-optikit version bump minor
+optikit bump minor
 
 # Multiple TestFlight uploads
-optikit version bump-ios  # Upload 1
-optikit version bump-ios  # Upload 2
-optikit version bump-ios  # Upload 3
+optikit bump-ios  # Upload 1
+optikit bump-ios  # Upload 2
+optikit bump-ios  # Upload 3
 
 # When satisfied, release to App Store
 # (No additional command needed)
@@ -354,11 +354,11 @@ optikit version bump-ios  # Upload 3
 ### 3. Hotfix Workflow
 ```bash
 # iOS hotfix
-optikit version bump patch
+optikit bump patch
 optikit flutter-build-ipa
 
 # Android hotfix
-optikit version bump patch
+optikit bump patch
 optikit flutter-build-bundle
 ```
 
@@ -368,7 +368,7 @@ optikit flutter-build-bundle
 optikit version
 
 # Then bump
-optikit version bump patch
+optikit bump patch
 ```
 
 ---
@@ -411,15 +411,15 @@ App Store Connect:
 optikit version
 
 # Release new version
-optikit version bump patch    # 1.0.0 → 1.0.1
-optikit version bump minor    # 1.0.1 → 1.1.0
-optikit version bump major    # 1.1.0 → 2.0.0
+optikit bump patch    # 1.0.0 → 1.0.1
+optikit bump minor    # 1.0.1 → 1.1.0
+optikit bump major    # 1.1.0 → 2.0.0
 
 # TestFlight only
-optikit version bump-ios
+optikit bump-ios
 
 # Google Play only
-optikit version bump-android
+optikit bump-android
 ```
 
 ---

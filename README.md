@@ -46,7 +46,7 @@ optikit init
 optikit version
 
 # Bump patch version (1.0.0 → 1.0.1)
-optikit version bump patch
+optikit bump patch
 
 # Build APK for release
 optikit flutter-build-apk

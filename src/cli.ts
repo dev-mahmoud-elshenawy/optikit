@@ -253,15 +253,7 @@ const options = yargs(hideBin(process.argv))
     }
   )
   .command(
-    "version",
-    "Show current version information",
-    () => {},
-    async () => {
-      await showCurrentVersion();
-    }
-  )
-  .command(
-    "version bump <type>",
+    "bump <type>",
     "Bump version (major, minor, or patch)",
     (yargs) => {
       return yargs.positional("type", {
@@ -276,7 +268,7 @@ const options = yargs(hideBin(process.argv))
     }
   )
   .command(
-    "version bump-ios",
+    "bump-ios",
     "Increment iOS build number only (for TestFlight)",
     () => {},
     async () => {
@@ -284,11 +276,19 @@ const options = yargs(hideBin(process.argv))
     }
   )
   .command(
-    "version bump-android",
+    "bump-android",
     "Increment Android build number only",
     () => {},
     async () => {
       await bumpAndroidBuildOnly();
+    }
+  )
+  .command(
+    "version",
+    "Show current version information",
+    () => {},
+    async () => {
+      await showCurrentVersion();
     }
   )
   .command(
