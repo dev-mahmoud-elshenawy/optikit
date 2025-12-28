@@ -10,6 +10,22 @@ We follow Semantic Versioning (SemVer) to indicate the nature of changes:
 
 Each section lists the changes in chronological order, with the most recent release at the top. We also include links to relevant discussions or issues when appropriate.
 
+## [1.2.1]
+
+### Added
+
+- **Open Build Output Commands:** New commands to quickly access build artifacts:
+  - `open-ipa` - Opens the IPA build output directory (`build/ios/ipa/`)
+  - `open-apk` - Opens the APK build output directory (`build/app/outputs/flutter-apk/`)
+  - `open-bundle` - Opens the Android Bundle output directory (`build/app/outputs/bundle/release/`)
+- **Cross-Platform Support:** All open commands work seamlessly on macOS (Finder), Windows (Explorer), and Linux (default file manager)
+- **Smart Validation:** Commands check if build output exists before attempting to open, with helpful error messages
+
+### Improved
+
+- **Documentation:** Updated USAGE.md with comprehensive open build output commands section
+- **User Experience:** No need for shell aliases to access build outputs - built directly into the CLI
+
 ## [1.2.0]
 
 ### Added

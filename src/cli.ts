@@ -15,7 +15,7 @@ import {
   buildFlutterIpa,
 } from "./commands/build/releases.js";
 import { boxenOptions } from "./styles.js";
-import { openIos, openAndroid } from "./commands/project/open.js";
+import { openIos, openAndroid, openIpaOutput, openBundleOutput, openApkOutput } from "./commands/project/open.js";
 import { createRequire } from "module";
 import { createVscodeSettings } from "./commands/project/setup.js";
 import { initializeProject } from "./commands/config/init.js";
@@ -192,7 +192,32 @@ const options = yargs(hideBin(process.argv))
     async () => {
       await openAndroid();
     }
-  ).command(
+  )
+  .command(
+    "open-ipa",
+    "Open the IPA build output directory",
+    {},
+    async () => {
+      await openIpaOutput();
+    }
+  )
+  .command(
+    "open-apk",
+    "Open the APK build output directory",
+    {},
+    async () => {
+      await openApkOutput();
+    }
+  )
+  .command(
+    "open-bundle",
+    "Open the Android Bundle build output directory",
+    {},
+    async () => {
+      await openBundleOutput();
+    }
+  )
+  .command(
     "setup-vscode",
     "Create a .vscode folder with recommended Flutter settings",
     () => {},

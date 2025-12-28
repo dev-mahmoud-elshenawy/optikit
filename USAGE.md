@@ -330,6 +330,45 @@ optikit open-ios
 
 ---
 
+### Open Build Output Directories
+
+Quickly access your build artifacts in Finder (macOS), File Explorer (Windows), or your default file manager (Linux).
+
+**Open IPA build output:**
+
+```bash
+optikit open-ipa
+```
+
+Opens: `build/ios/ipa/`
+
+**Open APK build output:**
+
+```bash
+optikit open-apk
+```
+
+Opens: `build/app/outputs/flutter-apk/`
+
+**Open Android Bundle build output:**
+
+```bash
+optikit open-bundle
+```
+
+Opens: `build/app/outputs/bundle/release/`
+
+**What it does:**
+
+- Validates that you're in a Flutter project
+- Checks if the build output directory exists
+- Opens the directory in your system's default file manager
+- Works cross-platform (macOS, Windows, Linux)
+
+**Note:** You must build the respective artifact first before opening its output directory.
+
+---
+
 ### VS Code Setup Command
 
 Automatically create a `.vscode` folder with a `settings.json` file preconfigured for Flutter projects using FVM. This command streamlines your project setup by setting the Flutter SDK path to `.fvm/flutter_sdk`.
