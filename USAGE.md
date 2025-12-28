@@ -40,7 +40,7 @@ optikit init
 ```json
 {
   "backupRetentionCount": 5,
-  "useFvmByDefault": false,
+  "useFvmByDefault": true,
   "autoBackup": true,
   "verbose": false
 }

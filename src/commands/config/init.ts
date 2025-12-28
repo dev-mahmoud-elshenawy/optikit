@@ -25,7 +25,7 @@ async function initializeProject(): Promise<void> {
     // Create default configuration
     const defaultConfig = {
       backupRetentionCount: 5,
-      useFvmByDefault: false,
+      useFvmByDefault: true,
       autoBackup: true,
       verbose: false,
     };

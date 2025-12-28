@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { execCommand } from "../services/exec.js";
+import { execCommandSilent } from "../services/exec.js";
 import { LoggerHelpers } from "../services/logger.js";
 
 export {
@@ -49,11 +49,11 @@ async function validateFlutterSdk(useFvm: boolean = false): Promise<boolean> {
       }
 
       // Check if fvm command is available
-      await execCommand("fvm --version");
+      await execCommandSilent("fvm --version");
       return true;
     } else {
       // Check if global Flutter is available
-      await execCommand("flutter --version");
+      await execCommandSilent("flutter --version");
       return true;
     }
   } catch (error) {

@@ -73,6 +73,35 @@ export async function execCommand(command: string): Promise<string> {
   });
 }
 
+export async function execCommandSilent(command: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const fullCommand = `${command}`;
+    const process = spawn(fullCommand, { shell: true });
+
+    let output = "";
+
+    process.stdout.on("data", (data) => {
+      output += data.toString();
+    });
+
+    process.stderr.on("data", (data) => {
+      output += data.toString();
+    });
+
+    process.on("close", (code) => {
+      if (code !== 0) {
+        reject(new Error(`Command failed with exit code ${code}`));
+      } else {
+        resolve(output);
+      }
+    });
+
+    process.on("error", (err) => {
+      reject(new Error(`Failed to start subprocess: ${err.message}`));
+    });
+  });
+}
+
 export async function execInIos(command: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const fullCommand = `cd "${iosDirectory}" && ${command}`;
