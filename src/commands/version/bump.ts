@@ -14,6 +14,7 @@ export {
   bumpVersion,
   bumpIosBuildOnly,
   bumpAndroidBuildOnly,
+  bumpBothBuilds,
   showCurrentVersion
 };
 
@@ -160,6 +161,56 @@ async function bumpAndroidBuildOnly(): Promise<void> {
       LoggerHelpers.error(`Error incrementing Android build: ${error.message}`);
     } else {
       LoggerHelpers.error(`Error incrementing Android build: ${error}`);
+    }
+    process.exit(1);
+  }
+}
+
+/**
+ * Increments BOTH Android and iOS build numbers
+ * Keeps version unchanged
+ * Perfect for updating both platforms simultaneously
+ */
+async function bumpBothBuilds(): Promise<void> {
+  // Pre-flight validation
+  if (!validateFlutterProject()) {
+    process.exit(1);
+  }
+
+  try {
+    const current = getCurrentVersion();
+    const currentVersionString = `${current.major}.${current.minor}.${current.patch}`;
+
+    // Read actual iOS build number from project.pbxproj
+    const currentIosBuild = getCurrentIosBuildNumber();
+    const nextAndroidBuild = current.buildNumber + 1;
+    const nextIosBuild = currentIosBuild + 1;
+
+    LoggerHelpers.info(`Current version: ${formatVersion(current)}`);
+    LoggerHelpers.info("Incrementing both Android and iOS build numbers...");
+
+    console.log(chalk.cyan("\nBuild number changes:"));
+    console.log(chalk.gray("  Version:"), chalk.white(`${currentVersionString} (unchanged)`));
+    console.log(chalk.gray("  Android:"), chalk.white(`${current.buildNumber} → ${nextAndroidBuild}`), chalk.green("(incremented)"));
+    console.log(chalk.gray("  iOS:"), chalk.white(`${currentIosBuild} → ${nextIosBuild}`), chalk.green("(incremented)"));
+    console.log();
+
+    // Update both Android and iOS build numbers
+    await updateFlutterVersion(
+      currentVersionString,
+      nextAndroidBuild.toString(),
+      nextIosBuild.toString()
+    );
+
+    LoggerHelpers.success(`Both build numbers incremented successfully`);
+    console.log(chalk.gray("\nResult:"), chalk.white(`${currentVersionString}+${nextAndroidBuild} (iOS: ${nextIosBuild})`));
+    console.log(chalk.gray("Use this for:"), chalk.white("Simultaneous Android and iOS releases"));
+
+  } catch (error) {
+    if (error instanceof Error) {
+      LoggerHelpers.error(`Error incrementing build numbers: ${error.message}`);
+    } else {
+      LoggerHelpers.error(`Error incrementing build numbers: ${error}`);
     }
     process.exit(1);
   }

@@ -24,6 +24,7 @@ import {
   bumpVersion,
   bumpIosBuildOnly,
   bumpAndroidBuildOnly,
+  bumpBothBuilds,
   showCurrentVersion
 } from "./commands/version/bump.js";
 import { listDevices, runApp, runAppInteractive } from "./commands/project/devices.js";
@@ -281,6 +282,14 @@ const options = yargs(hideBin(process.argv))
     () => {},
     async () => {
       await bumpAndroidBuildOnly();
+    }
+  )
+  .command(
+    "bump-build",
+    "Increment both Android and iOS build numbers",
+    () => {},
+    async () => {
+      await bumpBothBuilds();
     }
   )
   .command(

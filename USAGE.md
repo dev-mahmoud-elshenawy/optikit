@@ -188,6 +188,30 @@ After: 1.0.2+46 (iOS: 1 unchanged)
 
 ---
 
+### Bump Both Build Numbers
+
+Increment both Android and iOS build numbers:
+
+```bash
+optikit bump-build
+```
+
+**What it does:**
+
+- Keeps version unchanged
+- Increments Android build number
+- Increments iOS build number
+- Perfect for simultaneous Android and iOS releases
+
+**Example:**
+
+```text
+Before: 1.0.2+45 (iOS: 3)
+After: 1.0.2+46 (iOS: 4)
+```
+
+---
+
 ## Build Commands
 
 All build commands support FVM and create automatic backups.

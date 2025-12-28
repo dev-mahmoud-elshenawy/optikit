@@ -10,6 +10,70 @@ We follow Semantic Versioning (SemVer) to indicate the nature of changes:
 
 Each section lists the changes in chronological order, with the most recent release at the top. We also include links to relevant discussions or issues when appropriate.
 
+## [1.2.5]
+
+### Added
+
+- **Simultaneous Build Number Bump:** New `bump-build` command that increments both Android and iOS build numbers simultaneously without changing the version number
+- **Comprehensive Documentation:** Updated USAGE.md with detailed section for the new bump-build command
+
+### Improved
+
+- **Build Number Management:** Enhanced flexibility for managing builds across both platforms with a single command
+
+## [1.2.4]
+
+### Fixed
+
+- **iOS Build Number Tracking:** Fixed `bump-ios` command to increment the actual iOS build number from `project.pbxproj` instead of deriving from Android build number
+- **Independent Platform Builds:** iOS and Android build numbers now tracked independently as intended
+
+### Added
+
+- **iOS Build Number Reader:** New `getCurrentIosBuildNumber()` function to read actual iOS build number from `ios/Runner.xcodeproj/project.pbxproj`
+- **Enhanced Version Display:** `version` command now shows both Android and iOS build numbers separately
+
+### Improved
+
+- **Version Management Accuracy:** iOS build numbers now accurately reflect the actual project state
+
+## [1.2.3]
+
+### Fixed
+
+- **Silent Validation:** Removed unwanted version number output during command execution by implementing silent validation checks
+
+### Added
+
+- **Silent Command Execution:** New `execCommandSilent()` function for validation operations that don't need output logging
+
+### Improved
+
+- **User Experience:** Cleaner command output without version information appearing during validation
+
+## [1.2.2]
+
+### Fixed
+
+- **Command Naming Conflicts:** Resolved yargs command conflicts that prevented version bump commands from working correctly
+- **Version Bump Accuracy:** Fixed issue where major/minor/patch bumps were only incrementing Android build numbers
+
+### Changed
+
+- **Simplified Command Names:**
+  - `version bump <type>` renamed to `bump <type>` for major/minor/patch version bumps
+  - `version bump-ios` renamed to `bump-ios`
+  - `version bump-android` renamed to `bump-android`
+  - `version` command renamed to `version` for displaying current version
+
+### Added
+
+- **FVM Default Configuration:** Changed default `useFvmByDefault` setting to `true` in `init` command configuration
+
+### Improved
+
+- **Documentation:** Updated all documentation files (USAGE.md, VERSION_MANAGEMENT.md, README.md) with new command names and workflows
+
 ## [1.2.1]
 
 ### Added
